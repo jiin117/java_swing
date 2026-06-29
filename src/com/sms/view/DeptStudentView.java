@@ -22,10 +22,6 @@ public class DeptStudentView extends JDialog{
 	private JTable table;
 	private DefaultTableModel model;
 	
-//	public StudentLoadView(JFrame parent, List<String> deptlist) {
-//	}
-
-
 	public DeptStudentView(JFrame parent, List<String> deptList) {
 		super(parent, "학과별 학생 조회", true);
 		setLayout(new BorderLayout());

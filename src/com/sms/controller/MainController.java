@@ -6,11 +6,14 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import com.sms.model.DeptDAO;
+import com.sms.model.DeptDTO;
 import com.sms.model.StudentDAO;
 import com.sms.model.StudentDTO;
 import com.sms.view.StudentEditView;
 import com.sms.view.LoginView;
 import com.sms.view.MainView;
+import com.sms.view.DeptRegisterView;
 import com.sms.view.DeptStudentView;
 import com.sms.view.StudentRegisterView;
 import com.sms.view.ViewUtils;
@@ -25,7 +28,7 @@ public class MainController {
 		this.mainView = mainView;
 		this.userRole = userRole;
 		
-		this.mainView.addMenuLisener(new MenuActionListener());
+		this.mainView.addMenuListener(new MenuActionListener());
 	}
 	
 	//학생 로그인 시 사용
@@ -34,7 +37,7 @@ public class MainController {
 		this.mainView = mainView;
 		this.userRole = userRole;
 		
-		this.mainView.addMenuLisener(new MenuActionListener());
+		this.mainView.addMenuListener(new MenuActionListener());
 	}
 	
 	public class MenuActionListener implements ActionListener {
@@ -47,20 +50,28 @@ public class MainController {
 				RegisterStudent();
 			} else if (e.getSource() == mainView.getBtnStudentDept()) {
 				SearchDept();
+			} else if (e.getSource() == mainView.getBtnRegisterDept()) {
+				RegisterDept();
 			}
 		}
 	}
 	
-	private void LogOut() {
-		if(JOptionPane.showConfirmDialog(mainView, "로그아웃 하시겠습니까?", "로그아웃", 
-				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			mainView.dispose();
-			StudentDAO studentDAO = new StudentDAO();
-			LoginView loginView = new LoginView();
-			new LoginController(studentDAO, loginView);
-			loginView.setVisible(true);
-		}
+	private void RegisterDept() {
+		DeptDAO dao = new DeptDAO();
+		DeptRegisterView view = new DeptRegisterView(mainView);
+		view.addRegisterListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String[] data = view.getData();
+				DeptDTO registerDept = new DeptDTO(data[0], data[1]);
+				if(dao.insertDept(registerDept) == true)
+					ViewUtils.showMessage(view, "등록 완료");
+				else
+					ViewUtils.showMessage(view, "등록 실패");
+			}
+		});
+		view.setVisible(true);
 	}
+
 	
 	private void SearchDept() {
 		StudentDAO dao = new StudentDAO();		
@@ -108,5 +119,16 @@ public class MainController {
 			}
 		});
 		view.setVisible(true);
-	}	
+	}
+	
+	private void LogOut() {
+		if(JOptionPane.showConfirmDialog(mainView, "로그아웃 하시겠습니까?", "로그아웃", 
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			mainView.dispose();
+			StudentDAO studentDAO = new StudentDAO();
+			LoginView loginView = new LoginView();
+			new LoginController(studentDAO, loginView);
+			loginView.setVisible(true);
+		}
+	}
 }

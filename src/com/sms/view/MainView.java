@@ -22,10 +22,11 @@ public class MainView extends JFrame{
 	private JPanel contentP = new JPanel();
 	private JLabel lbl = new JLabel();
 	
-	private JButton btnEditInfo = new JButton("학생정보수정");
-	private JButton btnStudentDept = new JButton("학생정보조회");
-	private JButton btnRegisterStudent = new JButton("학생정보추가");
-	private JButton btnLogout = new JButton("로그아웃");
+	private JButton btnEditInfo = new JButton("학생정보수정"); //학생용
+	private JButton btnStudentDept = new JButton("학생정보조회"); //관리자용
+	private JButton btnRegisterDept = new JButton("학과정보추가"); //관리자용
+	private JButton btnRegisterStudent = new JButton("학생정보추가"); //관리자용
+	private JButton btnLogout = new JButton("로그아웃"); //누구나
 	
 	public MainView(String name, String role) {
 		setTitle("학생 관리 시스템 - 메인("+role+")");
@@ -43,6 +44,7 @@ public class MainView extends JFrame{
 			toolBar.add(btnEditInfo);
 		} else {
 			toolBar.add(btnStudentDept);
+			toolBar.add(btnRegisterDept);
 			toolBar.add(btnRegisterStudent);
 		}
 		toolBar.add(btnLogout);
@@ -58,7 +60,8 @@ public class MainView extends JFrame{
 		int width = 20;
 		int height = 30;
 		btnEditInfo.setIcon(createIcon("images/edit.png", width, height));
-		btnStudentDept.setIcon(createIcon("images/dept.png", width, height));
+		btnStudentDept.setIcon(createIcon("images/search.png", width, height));
+		btnRegisterDept.setIcon(createIcon("images/dept.png", width, height));
 		btnRegisterStudent.setIcon(createIcon("images/add.png", width, height));
 		btnLogout.setIcon(createIcon("images/logout.png", width, height));
 	}
@@ -69,9 +72,10 @@ public class MainView extends JFrame{
 		return new ImageIcon(img);
 	}
 	
-	public void addMenuLisener(ActionListener listener) {
+	public void addMenuListener(ActionListener listener) {
 		btnLogout.addActionListener(listener);
 		btnEditInfo.addActionListener(listener);
+		btnRegisterDept.addActionListener(listener);
 		btnRegisterStudent.addActionListener(listener);
 		btnStudentDept.addActionListener(listener);
 	}
@@ -82,6 +86,10 @@ public class MainView extends JFrame{
 	
 	public JButton getBtnEditInfo() {
 		return btnEditInfo;
+	}	
+	
+	public JButton getBtnRegisterDept() {
+		return btnRegisterDept;
 	}
 
 	public JButton getBtnRegisterStudent() {

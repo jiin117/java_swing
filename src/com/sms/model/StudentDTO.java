@@ -1,11 +1,11 @@
 package com.sms.model;
 
 public class StudentDTO {
-	String student_id;
-	String password;
-	String name;
-	String dept_code;
-	String phone;
+	private String student_id;
+	private String password;
+	private String name;
+	private String dept_code;
+	private String phone;
 		
 	public StudentDTO(String student_id, String password, String name, String dept_code, String phone) {
 		super();
